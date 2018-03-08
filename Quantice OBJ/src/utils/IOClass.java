@@ -2,6 +2,9 @@ package utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -10,6 +13,7 @@ import java.util.Scanner;
 
 import domain.TFace;
 import domain.TVertex;
+import sun.security.provider.certpath.Vertex;
 
 public class IOClass {
 
@@ -59,5 +63,26 @@ public class IOClass {
 				sc.nextLine();
 			}
 		}
+	}
+	
+	public File saveResults(String pathname) throws IOException {
+		File file = new File(pathname+".obj");
+		PrintWriter pw = new PrintWriter(new FileWriter(file));
+		
+		pw.println("# Blender v2.79 (sub 0) OBJ File: ''\n" + 
+				"# www.blender.org\n" + 
+				"o V_RF");
+		
+		for(TVertex v : vertex) {
+			pw.println("v "+v.getX()+" "+v.getY()+" "+v.getZ());
+		}
+		
+		pw.println("s off");
+		for(TFace face : faces) {
+			pw.println("f "+face.getV1()+" "+face.getV2()+" "+face.getV3());
+		}
+		
+		pw.close();
+		return file;
 	}
 }
