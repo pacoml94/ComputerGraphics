@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import domain.TFace;
+import domain.TObject;
 import domain.TVertex;
 import sun.security.provider.certpath.Vertex;
 
@@ -65,7 +66,7 @@ public class IOClass {
 		}
 	}
 	
-	public File saveResults(String pathname) throws IOException {
+	public File saveResults(String pathname, TObject object) throws IOException {
 		File file = new File(pathname+".obj");
 		PrintWriter pw = new PrintWriter(new FileWriter(file));
 		
@@ -73,12 +74,12 @@ public class IOClass {
 				"# www.blender.org\n" + 
 				"o V_RF");
 		
-		for(TVertex v : vertex) {
+		for(TVertex v : object.getVertexes()) {
 			pw.println("v "+v.getX()+" "+v.getY()+" "+v.getZ());
 		}
 		
 		pw.println("s off");
-		for(TFace face : faces) {
+		for(TFace face : object.getFaces()) {
 			pw.println("f "+face.getV1()+" "+face.getV2()+" "+face.getV3());
 		}
 		
