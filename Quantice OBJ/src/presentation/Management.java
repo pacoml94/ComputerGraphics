@@ -14,23 +14,56 @@ public class Management {
 	private IOClass ioClass;
 	private List<TVertex> vertexesList;
 	private List<TFace> facesList;
-	private TObject modelo;
+	private TObject model;
 	
 	public Management() throws IOException {
 		ioClass = new IOClass(new File("TEXTO.obj"));
 		vertexesList = ioClass.getVertices();
 		facesList = ioClass.getFaces();
 		
-		modelo = new TObject("Modelo1", vertexesList, facesList);
-		modelo.setnVertexes(vertexesList.size());
-		modelo.setnFaces(facesList.size());
+		model = new TObject("Modelo1", vertexesList, facesList);
+		model.setnVertexes(vertexesList.size());
+		model.setnFaces(facesList.size());
 	}
 	
 	public TObject getModelo() {
-		return modelo;
+		return model;
 	}
 	
-	public void run() {
-		
+	public void run() throws IOException {
+		changeMaxMin();
 	}
+	
+	public File saveModel() throws IOException {
+		return ioClass.saveResults("NewObject", model);
+	}
+	
+	private void changeMaxMin() {
+		for(int index = 0; index < vertexesList.size(); index++) {
+			if (this.model.getMax().compareTo(this.model.getVertexes().get(index).getX()) < 0) {
+				this.model.setMax(this.model.getVertexes().get(index).getX());
+			}
+			
+			if (this.model.getMax().compareTo(this.model.getVertexes().get(index).getY()) < 0) {
+				this.model.setMax(this.model.getVertexes().get(index).getY());
+			}
+			
+			if (this.model.getMax().compareTo(this.model.getVertexes().get(index).getZ()) < 0) {
+				this.model.setMax(this.model.getVertexes().get(index).getZ());
+			}
+			
+			if (this.model.getMin().compareTo(this.model.getVertexes().get(index).getX()) > 0) {
+				this.model.setMin(this.model.getVertexes().get(index).getX());
+			}
+			
+			if (this.model.getMin().compareTo(this.model.getVertexes().get(index).getY()) > 0) {
+				this.model.setMin(this.model.getVertexes().get(index).getY());
+			}
+			
+			if (this.model.getMin().compareTo(this.model.getVertexes().get(index).getZ()) > 0) {
+				this.model.setMin(this.model.getVertexes().get(index).getZ());
+			}
+		}
+	}
+
 }
