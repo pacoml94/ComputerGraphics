@@ -2,6 +2,7 @@ package presentation;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import domain.TFace;
@@ -35,7 +36,15 @@ public class Management {
 	}
 	
 	public File saveModel() throws IOException {
-		return ioClass.saveResults("NewObject", model);
+		return ioClass.saveObject("NewObject", model);
+	}
+	
+	public File saveQuanticeObject() throws IOException {
+		return ioClass.saveQuanticeObject("NewQuanticeObject", model);
+	}
+	
+	public TObject freeObject() {
+		return this.model = null;
 	}
 	
 	private void changeMaxMin() {

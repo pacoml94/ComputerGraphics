@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +67,7 @@ public class IOClass {
 		}
 	}
 	
-	public File saveResults(String pathname, TObject object) throws IOException {
+	public File saveObject(String pathname, TObject object) throws IOException {
 		File file = new File(pathname+".obj");
 		PrintWriter pw = new PrintWriter(new FileWriter(file));
 		
@@ -85,5 +86,51 @@ public class IOClass {
 		
 		pw.close();
 		return file;
+	}
+	
+	public File saveQuanticeObject(String pathname, TObject object) throws IOException {
+		File file = new File(pathname+".obj");
+		PrintWriter pw = new PrintWriter(new FileWriter(file));
+		char dc;
+		
+		pw.println("# Blender v2.79 (sub 0) OBJ File: ''\n" + 
+				"# www.blender.org\n" + 
+				"o V_RF");
+		
+		pw.println(object.getName());
+		pw.println(object.getnVertexes());
+		pw.println(object.getnFaces());
+		pw.println(object.getMax());
+		pw.println(object.getMin());
+		
+		BigDecimal max = new BigDecimal(String.valueOf(object.getMax()));
+		BigDecimal min = new BigDecimal(String.valueOf(object.getMin()));
+		BigDecimal result = max.subtract(min);
+		
+		pw.println(result);
+		
+		for(TVertex vertex : object.getVertexes()) {
+			BigDecimal x = vertex.getX();
+			result = x.subtract(min).divide(object.getMax().subtract(object.getMin()),MathContext.DECIMAL64);
+			pw.print(result+" ");
+			BigDecimal y = vertex.getY();
+			result = y.subtract(min).divide(object.getMax().subtract(object.getMin()),MathContext.DECIMAL64);
+			pw.print(result+" ");
+			BigDecimal z = vertex.getZ();
+			result = z.subtract(min).divide(object.getMax().subtract(object.getMin()),MathContext.DECIMAL64);
+			pw.print(result+" ");
+			pw.println();
+		}
+		pw.println("s off");
+		for(TFace face : object.getFaces()) {
+			pw.print(face.getV1()+" ");
+			pw.print(face.getV2()+" ");
+			pw.print(face.getV3()+" ");
+			pw.println();
+		}
+		
+		pw.close();
+		return file;
+		
 	}
 }
