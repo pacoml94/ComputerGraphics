@@ -52,7 +52,7 @@ public class IOClass {
 				v1 = sc.next();
 				v2 = sc.next();
 				v3 = sc.next();
-				listFaces.add(new TFace(Integer.parseInt(v1), Integer.parseInt(v2), Integer.parseInt(v3)));
+				listFaces.add(new TFace(v1, v2, v3));
 				break;
 			}
 		}

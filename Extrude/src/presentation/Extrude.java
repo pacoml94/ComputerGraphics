@@ -18,7 +18,7 @@ public class Extrude {
 			y = obj.getVertexes().get(i).getY()*d;
 			z = obj.getVertexes().get(i).getZ()*d;
 			TVertex vertex = new TVertex(x, y, z);
-			obj.getVertexes().add(i+1, vertex);
+			obj.getVertexes().add(vertex);
 		}
 		
 		return this.obj;

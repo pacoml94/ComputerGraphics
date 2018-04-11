@@ -12,17 +12,19 @@ class Main {
 
 	public static void main(String[] args) {
 		try {
-			IOClass io = new IOClass("TEXTO.obj");
+			IOClass io = new IOClass("plane.obj");
 			List<TVertex> vertexes = io.getListVertex();
 			List<TFace> faces = io.getListFaces();
 			TObject object = new TObject("OBJECT", vertexes, faces);
 			System.out.println(object.toString());
 			System.out.println(object.getVertexes().size());
 			Extrude e = new Extrude(object);
-			object = e.extrusion(100);
+			object = e.extrusion(2);
 			io.setObject(object);
+			System.out.println();
 			System.out.println(object.getVertexes().size());
-			io.writeExtrudeData("NewObject.obj");
+			System.out.println(object.toString());
+			io.writeExtrudeData("NewPlane.obj");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
